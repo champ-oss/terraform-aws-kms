@@ -2,7 +2,7 @@ module github.com/champ-oss/terraform-aws-kms
 
 go 1.17
 
-require github.com/gruntwork-io/terratest v0.40.19
+require github.com/gruntwork-io/terratest v0.40.20
 
 require (
 	cloud.google.com/go v0.83.0 // indirect
