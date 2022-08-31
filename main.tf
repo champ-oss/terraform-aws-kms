@@ -21,6 +21,7 @@ resource "aws_kms_alias" "this" {
 }
 
 data "aws_iam_policy_document" "this" {
+  count = var.custom_policy != null ? 0 : 1
   dynamic "statement" {
     for_each = var.account_actions
 
