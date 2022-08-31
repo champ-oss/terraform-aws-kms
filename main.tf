@@ -10,7 +10,7 @@ locals {
 data "aws_caller_identity" "current" {}
 
 resource "aws_kms_key" "this" {
-  policy                  = data.aws_iam_policy_document.this.json
+  policy                  = var.custom_policy != null ? var.custom_policy : data.aws_iam_policy_document.this.json
   tags                    = merge(local.tags, var.tags)
   deletion_window_in_days = var.deletion_window_in_days
 }
