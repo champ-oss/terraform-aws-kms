@@ -10,7 +10,7 @@ locals {
 data "aws_caller_identity" "current" {}
 
 resource "aws_kms_key" "this" {
-  policy                  = var.custom_policy != null ? var.custom_policy : data.aws_iam_policy_document.this.json
+  policy                  = var.custom_policy != null ? var.custom_policy : data.aws_iam_policy_document.this[0].json
   tags                    = merge(local.tags, var.tags)
   deletion_window_in_days = var.deletion_window_in_days
 }
@@ -21,7 +21,7 @@ resource "aws_kms_alias" "this" {
 }
 
 data "aws_iam_policy_document" "this" {
-  count = var.custom_policy != null ? 0 : 1
+  count = var.account_actions != null ? 1 : 0
   dynamic "statement" {
     for_each = var.account_actions
 
