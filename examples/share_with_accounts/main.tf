@@ -11,4 +11,10 @@ module "this" {
   git                     = "terraform-aws-kms"
   name                    = "alias/test-${random_string.identifier.result}"
   deletion_window_in_days = 7
+  account_actions = [
+    {
+      account = 912455136424,
+      actions = ["kms:Encrypt"]
+    },
+  ]
 }
