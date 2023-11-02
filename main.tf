@@ -21,7 +21,8 @@ resource "aws_kms_alias" "this" {
 }
 
 data "aws_iam_policy_document" "this" {
-  count = var.account_actions != null ? 1 : 0
+  count = 1
+
   dynamic "statement" {
     for_each = var.account_actions
 
@@ -30,8 +31,29 @@ data "aws_iam_policy_document" "this" {
         identifiers = ["arn:aws:iam::${statement.value.account}:root"]
         type        = "AWS"
       }
+
       actions   = statement.value.actions
       resources = ["*"]
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.org_actions
+
+    content {
+      principals {
+        identifiers = ["*"]
+        type        = "AWS"
+      }
+
+      actions   = statement.value.actions
+      resources = ["*"]
+
+      condition {
+        test     = "ForAnyValue:StringLike"
+        variable = "aws:PrincipalOrgPaths"
+        values   = [statement.value.org]
+      }
     }
   }
 

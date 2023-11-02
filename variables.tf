@@ -17,6 +17,13 @@ variable "name" {
 variable "account_actions" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key#policy"
   type        = list(object({ account = string, actions = list(string) }))
+  default     = []
+}
+
+variable "org_actions" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key#policy"
+  type        = list(object({ org = string, actions = list(string) }))
+  default     = []
 }
 
 variable "deletion_window_in_days" {
