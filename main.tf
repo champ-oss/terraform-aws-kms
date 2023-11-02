@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "this" {
       condition {
         test     = "ForAnyValue:StringLike"
         variable = "aws:PrincipalOrgPaths"
-        values   = [statement.value.actions]
+        values   = [statement.value.org]
       }
     }
   }
