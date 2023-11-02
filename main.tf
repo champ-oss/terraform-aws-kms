@@ -21,7 +21,7 @@ resource "aws_kms_alias" "this" {
 }
 
 data "aws_iam_policy_document" "this" {
-  count = var.account_actions != [] || var.org_actions != [] ? 1 : 0
+  count = length(var.account_actions) > 0 || length(var.org_actions) > 0 ? 1 : 0
 
   dynamic "statement" {
     for_each = var.account_actions
