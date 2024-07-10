@@ -7,21 +7,25 @@ locals {
   }
 }
 
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {
+  count = var.enabled ? 1 : 0
+}
 
 resource "aws_kms_key" "this" {
+  count                   = var.enabled ? 1 : 0
   policy                  = var.custom_policy != null ? var.custom_policy : data.aws_iam_policy_document.this[0].json
   tags                    = merge(local.tags, var.tags)
   deletion_window_in_days = var.deletion_window_in_days
 }
 
 resource "aws_kms_alias" "this" {
+  count         = var.enabled ? 1 : 0
   name          = var.name
-  target_key_id = aws_kms_key.this.key_id
+  target_key_id = aws_kms_key.this[0].key_id
 }
 
 data "aws_iam_policy_document" "this" {
-  count = 1
+  count = var.enabled ? 1 : 0
 
   dynamic "statement" {
     for_each = var.account_actions
@@ -59,7 +63,7 @@ data "aws_iam_policy_document" "this" {
 
   statement {
     principals {
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current[0].account_id}:root"]
       type        = "AWS"
     }
     actions   = ["kms:*"]
