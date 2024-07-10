@@ -37,3 +37,9 @@ variable "custom_policy" {
   description = "point to data.aws_iam_policy_document.custom.json"
   default     = null
 }
+
+variable "enabled" {
+  description = "Set to false to prevent the module from creating any resources"
+  type        = bool
+  default     = true
+}
