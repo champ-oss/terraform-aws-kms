@@ -41,5 +41,5 @@ variable "custom_policy" {
 variable "enabled" {
   description = "Set to false to prevent the module from creating any resources"
   type        = bool
-  default     = true
+  default     = false
 }
